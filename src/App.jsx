@@ -1,16 +1,23 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-function App() {
-  const [count, setCount] = useState(0)
+// Pages
+import Landing from "./pages/Landing";
+// import Dashboard from "./pages/Dashboard";
+// import Chat from "./pages/Chat";
+// import NotFound from "./pages/NotFound";
 
+const App = () => {
   return (
-    <>
-      <h1 className="text-4xl font-bold text-blue-600">Modern AI UI App</h1>
-    </>
-  )
-}
+    <Router>
+      <Routes>
+        <Route path="/" element={<Landing />} />
+        {/* <Route path="/dashboard" element={<Dashboard />} /> */}
+        {/* <Route path="/chat" element={<Chat />} /> */}
+        {/* <Route path="*" element={<NotFound />} /> */}
+      </Routes>
+    </Router>
+  );
+};
 
-export default App
+export default App;
