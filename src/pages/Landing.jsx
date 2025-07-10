@@ -61,9 +61,11 @@ const Landing = () => {
                 <ArrowRight size={20} />
               </Button>
             </Link>
-            <Button size="lg" variant="outline">
-              Watch Demo
-            </Button>
+            <Link to="/chat">
+              <Button size="lg" variant="outline">
+                Watch Demo
+              </Button>
+            </Link>
           </div>
 
           <div className="flex items-center justify-center gap-6 text-sm text-gray-500">
