@@ -5,7 +5,7 @@ const Button = ({ children, className = "", onClick, type = "button", disabled =
   
   const variants = {
     primary: "bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:shadow-lg hover:shadow-blue-500/25",
-    secondary: "bg-white text-gray-700 border border-gray-300 hover:bg-gray-50 hover:shadow-md",
+    secondary: "bg-white text-gray-700 border border-gray-300 hover:bg-gray-200 hover:text-gray-800",
     outline: "border-2 border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white"
   };
   
