@@ -12,7 +12,7 @@ const Layout = ({ children }) => {
       <Navbar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
       
       <div className="flex flex-1 relative">
-        <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+        {/* <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} /> */}
         
         <main className="flex-1 transition-all duration-300 ease-in-out">
           {children}
