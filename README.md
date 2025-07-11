@@ -52,6 +52,8 @@ src/
 │   └── useIsMobile.js
 └── App.jsx
 
+```
+
 📍 Routes
 
 | Path              | Description                  |
