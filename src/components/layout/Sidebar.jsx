@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   LayoutDashboard,
   BarChart2,
@@ -7,6 +7,7 @@ import {
   Menu,
   X,
   Sparkles,
+  MessageCircle,
 } from "lucide-react";
 
 const Sidebar = ({
@@ -16,15 +17,24 @@ const Sidebar = ({
   setMobileOpen,
 }) => {
   const navItems = [
-    { icon: LayoutDashboard, label: "Dashboard", active: true },
-    { icon: BarChart2, label: "Analytics" },
-    { icon: Users, label: "Users" },
-    { icon: Settings, label: "Settings" },
+    { icon: LayoutDashboard, label: "Dashboard", active: true, navigateTo: "/dashboard" },
+    { icon: MessageCircle, label: "Messages", active: false, navigateTo: "/chat" },
+    { icon: BarChart2, label: "Analytics", active: false, navigateTo: "#" },
+    { icon: Users, label: "Users", active: false, navigateTo: "#" },
+    { icon: Settings, label: "Settings", active: false, navigateTo: "#" },
   ];
 
   return (
     <>
-      {/* 📱 Mobile Sidebar Overlay */}
+      {/* Mobile Overlay */}
+      {mobileOpen && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 z-30 sm:hidden"
+          onClick={() => setMobileOpen(false)}
+        />
+      )}
+
+      {/* Mobile Sidebar */}
       <div
         className={`fixed top-0 left-0 w-64 h-full bg-white shadow-lg z-40 transform transition-transform duration-300 sm:hidden ${
           mobileOpen ? "translate-x-0" : "-translate-x-full"
@@ -32,7 +42,7 @@ const Sidebar = ({
       >
         <div className="p-4 border-b flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+            <div className="w-8 h-8 bg-blue-500 rounded-lg flex items-center justify-center">
               <Sparkles className="w-5 h-5 text-white" />
             </div>
             <span className="text-lg font-semibold text-gray-800">Menu</span>
@@ -45,6 +55,11 @@ const Sidebar = ({
           {navItems.map((item, index) => (
             <button
               key={index}
+              onClick={() => {
+                setMobileOpen(false);
+                // Navigate to the selected route
+                window.location.href = item.navigateTo;
+              }}
               className={`w-full flex items-center gap-3 p-3 rounded-lg transition-colors ${
                 item.active
                   ? "bg-blue-50 text-blue-600"
@@ -58,15 +73,15 @@ const Sidebar = ({
         </nav>
       </div>
 
-      {/* 🖥️ Desktop Sidebar */}
+      {/* Desktop Sidebar */}
       <div
         className={`${
           sidebarOpen ? "w-52" : "w-18"
-        } transition-all duration-300 bg-gray-200 border-r border-gray-200 flex flex-col sm:flex hidden h-screen`}
+        } transition-all duration-300 bg-gray-50 border-r border-gray-200 flex-col h-screen hidden sm:flex`}
       >
         <div className="p-4 border-b border-gray-200">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+            <div className="w-8 h-8 bg-blue-500 rounded-lg flex items-center justify-center">
               <Sparkles className="w-5 h-5 text-white" />
             </div>
             {sidebarOpen && (
@@ -79,6 +94,11 @@ const Sidebar = ({
           {navItems.map((item, index) => (
             <button
               key={index}
+              onClick={() => {
+                setSidebarOpen(false);
+                // Navigate to the selected route
+                window.location.href = item.navigateTo;
+              }}
               className={`w-full flex items-center gap-3 p-3 rounded-lg transition-colors ${
                 item.active
                   ? "bg-blue-50 text-blue-600"
@@ -95,7 +115,7 @@ const Sidebar = ({
 
         <button
           onClick={() => setSidebarOpen(!sidebarOpen)}
-          className="p-4 border-t border-gray-200 text-gray-500 hover:text-gray-700 sm:block hidden"
+          className="p-4 border-t border-gray-200 text-gray-500 hover:text-gray-700 transition-colors"
         >
           <Menu className="w-5 h-5" />
         </button>
