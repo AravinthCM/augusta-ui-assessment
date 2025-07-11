@@ -20,7 +20,7 @@ const ChatInput = ({ onSendMessage }) => {
   };
 
   return (
-    <div className="border-t border-gray-200 bg-white p-4">
+    <div className="border-t border-gray-200 bg-white p-4 rounded-md   shadow-sm">
       <div className="flex space-x-4">
         <div className="flex-1 relative">
           <input

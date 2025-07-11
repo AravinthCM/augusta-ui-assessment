@@ -49,6 +49,8 @@ import {
 import Layout from "../components/layout/Layout";
 import { Button } from "../components/ui";
 import MetricCard from "../components/charts/MetricCard";
+import Sidebar from "../components/layout/Sidebar";
+import useIsMobile from "../hooks/useIsMobile";
 
 const AdvancedBarChart = ({ data, title }) => {
   return (
@@ -228,7 +230,7 @@ const ActivityFeed = () => {
 // Main Dashboard Component
 const Dashboard = () => {
   const [refreshing, setRefreshing] = useState(false);
-
+  const [mobileOpen, setMobileOpen] = useState(false);
   const handleRefresh = () => {
     setRefreshing(true);
     setTimeout(() => setRefreshing(false), 2000);
@@ -270,40 +272,90 @@ const Dashboard = () => {
     { value: 28 },
   ];
 
-  return (
-    <Layout showNavbar={false} showSidebar={true} bgClassName="bg-gray-200">
-      <div className="p-6 space-y-6 overflow-y-auto h-full rounded-2xl bg-gray-100 shadow-lg m-2">
-        {/* back button Refresh Button */}
-        <div className="flex items-center justify-between mb-4">
-          <Button
-            variant="secondary"
-            size="sm"
-            onClick={() => window.history.back()}
-          >
-          <ArrowLeft className="w-4 h-4" /> Back to Landing Page
-        </Button>
-          <Button variant="outline" size="sm" onClick={handleRefresh}>
-            <RefreshCw
-              className={`w-4 h-4 ${refreshing ? "animate-spin" : ""}`}
-            />
-            Refresh
-          </Button>
-        </div>
-        {/* Header */}
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-6xl md:text-5xl font-bold mb-2 leading-tight">
-              <span className="bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">
-                Dashboard Overview
-              </span>
-            </h1>
-            <p className="text-gray-600">
-              Welcome back! Here's what's happening with your business.
-            </p>
-          </div>
-        </div>
+  const useIsMobile = (breakpoint = 640) => {
+    const [isMobile, setIsMobile] = useState(
+      () => window.innerWidth < breakpoint
+    );
 
-          {/* Metric Cards - takes 1/4 of the width */}
+    useEffect(() => {
+      const handleResize = () => setIsMobile(window.innerWidth < breakpoint);
+      window.addEventListener("resize", handleResize);
+      return () => window.removeEventListener("resize", handleResize);
+    }, [breakpoint]);
+
+    return isMobile;
+  };
+
+  const isMobile = useIsMobile();
+  return (
+    <>
+      {/* Include mobile sidebar */}
+      {isMobile && (
+        <Sidebar
+          sidebarOpen={!isMobile}
+          setSidebarOpen={() => {}}
+          mobileOpen={mobileOpen}
+          setMobileOpen={setMobileOpen}
+        />
+      )}
+
+      <Layout
+        showNavbar={false}
+        showSidebar={!isMobile}
+        bgClassName="bg-gray-200"
+      >
+        <div className="p-6 space-y-6 overflow-y-auto h-full rounded-2xl bg-gray-100 shadow-lg m-2">
+          {/* Header Row */}
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center space-x-2">
+              {isMobile && (
+                <button
+                  onClick={() => setMobileOpen(true)}
+                  className="p-2 hover:bg-gray-100 rounded-lg transition-colors bg-white shadow"
+                >
+                  <Menu className="w-4 h-4 text-gray-700" />
+                </button>
+              )}
+
+              <Button
+                variant="secondary"
+                size="sm"
+                onClick={() => window.history.back()}
+                isMobile={isMobile}
+              >
+                <ArrowLeft className="w-4 h-4" />
+                Back
+              </Button>
+            </div>
+
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleRefresh}
+              isMobile={isMobile}
+            >
+              <RefreshCw
+                className={`w-4 h-4 ${refreshing ? "animate-spin" : ""}`}
+              />
+              Refresh
+            </Button>
+          </div>
+
+          {/* Dashboard Header */}
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-4xl md:text-5xl font-bold mb-2 leading-tight">
+                <span className="bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">
+                  Dashboard Overview
+                </span>
+              </h1>
+              <p className="text-gray-600">
+                Welcome back! Here's what's happening with your business.
+              </p>
+            </div>
+          </div>
+
+          {/* Metric Cards */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-6">
             <MetricCard
               title="Total Users"
@@ -339,66 +391,68 @@ const Dashboard = () => {
             />
           </div>
 
-        <div className="grid grid-cols-4 gap-6">
-          {/* Chart - takes 3/4 of the width */}
-          <div className="col-span-4 lg:col-span-3">
-            <AdvancedLineChart data={lineData} title="Revenue Trend" />
+          {/* Line Chart */}
+          <div className="grid grid-cols-4 gap-6">
+            <div className="col-span-4 lg:col-span-3">
+              <AdvancedLineChart data={lineData} title="Revenue Trend" />
+            </div>
           </div>
-        </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <div className="lg:col-span-2">
-            <AdvancedPieChart data={pieData} title="Traffic Sources" />
+          {/* Pie + Feed */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="lg:col-span-2">
+              <AdvancedPieChart data={pieData} title="Traffic Sources" />
+            </div>
+            <ActivityFeed />
           </div>
-          <ActivityFeed />
-        </div>
 
-        {/* Quick Actions */}
-        <div className="bg-white rounded-xl border border-gray-200 p-6">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">
-            Quick Actions
-          </h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {[
-              {
-                icon: Users,
-                label: "Add User",
-                color: "from-blue-500 to-blue-600",
-              },
-              {
-                icon: BarChart2,
-                label: "Generate Report",
-                color: "from-green-500 to-green-600",
-              },
-              {
-                icon: Settings,
-                label: "Settings",
-                color: "from-purple-500 to-purple-600",
-              },
-              {
-                icon: Award,
-                label: "Achievements",
-                color: "from-orange-500 to-orange-600",
-              },
-            ].map((action, index) => (
-              <button
-                key={index}
-                className="flex flex-col items-center gap-3 p-4 rounded-lg bg-gray-50 hover:bg-gray-100 transition-all duration-200 group"
-              >
-                <div
-                  className={`w-10 h-10 rounded-lg bg-gradient-to-r ${action.color} flex items-center justify-center group-hover:scale-110 transition-transform`}
+          {/* Quick Actions */}
+          <div className="bg-white rounded-xl border border-gray-200 p-6">
+            <h2 className="text-lg font-semibold text-gray-900 mb-4">
+              Quick Actions
+            </h2>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {[
+                {
+                  icon: Users,
+                  label: "Add User",
+                  color: "from-blue-500 to-blue-600",
+                },
+                {
+                  icon: BarChart2,
+                  label: "Generate Report",
+                  color: "from-green-500 to-green-600",
+                },
+                {
+                  icon: Settings,
+                  label: "Settings",
+                  color: "from-purple-500 to-purple-600",
+                },
+                {
+                  icon: Award,
+                  label: "Achievements",
+                  color: "from-orange-500 to-orange-600",
+                },
+              ].map((action, i) => (
+                <button
+                  key={i}
+                  className="flex flex-col items-center gap-3 p-4 rounded-lg bg-gray-50 hover:bg-gray-100 transition-all duration-200 group"
                 >
-                  <action.icon className="w-5 h-5 text-white" />
-                </div>
-                <span className="text-sm text-gray-700 group-hover:text-gray-900 transition-colors font-medium">
-                  {action.label}
-                </span>
-              </button>
-            ))}
+                  <div
+                    className={`w-10 h-10 rounded-lg bg-gradient-to-r ${action.color} flex items-center justify-center group-hover:scale-110 transition-transform`}
+                  >
+                    <action.icon className="w-5 h-5 text-white" />
+                  </div>
+                  <span className="text-sm text-gray-700 group-hover:text-gray-900 font-medium">
+                    {action.label}
+                  </span>
+                </button>
+              ))}
+            </div>
           </div>
         </div>
-      </div>
-    </Layout>
+      </Layout>
+    </>
   );
 };
 

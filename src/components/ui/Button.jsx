@@ -1,6 +1,6 @@
 import React from "react";
 
-const Button = ({ children, className = "", onClick, type = "button", disabled = false, variant = "primary", size = "md" }) => {
+const Button = ({ children, className = "", onClick, type = "button", disabled = false, variant = "primary", size = "md", isMobile = false }) => {
   const baseStyle = "font-semibold transition-all duration-200 rounded-lg inline-flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-105 active:scale-95";
   
   const variants = {
@@ -22,7 +22,11 @@ const Button = ({ children, className = "", onClick, type = "button", disabled =
       disabled={disabled}
       className={`${baseStyle} ${variants[variant]} ${sizes[size]} ${className}`}
     >
-      {children}
+      {isMobile ? (
+      React.Children.toArray(children).find(child => typeof child === "object")
+    ) : (
+      children
+    )}
     </button>
   );
 };
