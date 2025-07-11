@@ -14,16 +14,16 @@ A modern, responsive AI-powered dashboard built with React.js, Tailwind CSS, and
 🚀 Quick Start
 
 Clone the repository
-git clone https://github.com/AravinthCM/augusta-ui-assessment.git
+`git clone https://github.com/AravinthCM/augusta-ui-assessment.git`
 
 Navigate to project directory
-cd augusta-ui-assessment
+`cd augusta-ui-assessment`
 
 Install dependencies
-npm install
+`npm install`
 
 Start development server
-npm run dev
+`npm run dev`
 
 
 🧱 Tech Stack
