@@ -1,12 +1,68 @@
-# React + Vite
+Modern AI-UI-App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern, responsive AI-powered dashboard built with React.js, Tailwind CSS, and Recharts. Features real-time analytics, an AI chat assistant, and beautifully designed metric cards.
 
-Currently, two official plugins are available:
+🔥 Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- 🌟 Interactive landing page with animated hero section
+- 📈 Real-time charts: Line, Pie using Recharts
+- 🤖 AI Chat Assistant interface
+- 📊 Dynamic metric cards and recent activity feed
+- 📱 Fully responsive and mobile-friendly layout
+- 🎨 Clean UI with Tailwind CSS + Lucide icons
 
-## Expanding the ESLint configuration
+🚀 Quick Start
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Clone the repository
+git clone https://github.com/AravinthCM/augusta-ui-assessment.git
+
+Navigate to project directory
+cd augusta-ui-assessment
+
+Install dependencies
+npm install
+
+Start development server
+npm run dev
+
+
+🧱 Tech Stack
+
+- Frontend: React.js, Tailwind CSS, React Router
+- Charts: Recharts
+- Icons: Lucide React
+- State Management: React Hooks (useState, useEffect)
+- Responsive Design: Mobile-first, flexbox/grid
+
+
+📁 Project Structure
+src/
+├── components/
+│   ├── ui/
+│   ├── layout/
+│   ├── charts/
+│   └── chat/
+├── pages/
+│   ├── Landing.jsx
+│   ├── Dashboard.jsx
+│   └── ChatPage.jsx
+├── hooks/
+│   └── useIsMobile.js
+└── App.jsx
+
+
+📸 Screenshots
+![Landing Page](./screenshots/LandingPage.png)
+![Dashboard Screen 1](./screenshots/Dashboard1.png)
+![Dashboard Screen 2](./screenshots/Dashboard2.png)
+![Chat Screen](./screenshots/ChatScreen.png)
+
+
+🛠️ Available Scripts
+
+- `npm run dev` - Runs the app in development mode
+
+🙏 Acknowledgments
+- [Recharts](https://recharts.org/) for beautiful charts
+- [Lucide](https://lucide.dev/) for clean icons
+- [Tailwind CSS](https://tailwindcss.com/) for utility-first styling
