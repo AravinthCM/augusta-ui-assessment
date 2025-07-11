@@ -36,6 +36,8 @@ Start development server
 
 
 📁 Project Structure
+
+```
 src/
 ├── components/
 │   ├── ui/
@@ -49,7 +51,7 @@ src/
 ├── hooks/
 │   └── useIsMobile.js
 └── App.jsx
-
+```
 
 📸 Screenshots
 ![Landing Page](./screenshots/LandingPage.png)
