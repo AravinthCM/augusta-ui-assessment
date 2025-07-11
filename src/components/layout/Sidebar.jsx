@@ -7,6 +7,7 @@ import {
   Menu,
   X,
   Sparkles,
+  MessageCircle,
 } from "lucide-react";
 
 const Sidebar = ({
@@ -16,10 +17,11 @@ const Sidebar = ({
   setMobileOpen,
 }) => {
   const navItems = [
-    { icon: LayoutDashboard, label: "Dashboard", active: true },
-    { icon: BarChart2, label: "Analytics" },
-    { icon: Users, label: "Users" },
-    { icon: Settings, label: "Settings" },
+    { icon: LayoutDashboard, label: "Dashboard", active: true, navigateTo: "/dashboard" },
+    { icon: MessageCircle, label: "Messages", active: false, navigateTo: "/chat" },
+    { icon: BarChart2, label: "Analytics", active: false, navigateTo: "#" },
+    { icon: Users, label: "Users", active: false, navigateTo: "#" },
+    { icon: Settings, label: "Settings", active: false, navigateTo: "#" },
   ];
 
   return (
@@ -53,6 +55,11 @@ const Sidebar = ({
           {navItems.map((item, index) => (
             <button
               key={index}
+              onClick={() => {
+                setMobileOpen(false);
+                // Navigate to the selected route
+                window.location.href = item.navigateTo;
+              }}
               className={`w-full flex items-center gap-3 p-3 rounded-lg transition-colors ${
                 item.active
                   ? "bg-blue-50 text-blue-600"
@@ -87,6 +94,11 @@ const Sidebar = ({
           {navItems.map((item, index) => (
             <button
               key={index}
+              onClick={() => {
+                setSidebarOpen(false);
+                // Navigate to the selected route
+                window.location.href = item.navigateTo;
+              }}
               className={`w-full flex items-center gap-3 p-3 rounded-lg transition-colors ${
                 item.active
                   ? "bg-blue-50 text-blue-600"

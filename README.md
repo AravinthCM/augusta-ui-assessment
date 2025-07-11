@@ -50,6 +50,14 @@ src/
 │   └── useIsMobile.js
 └── App.jsx
 
+📍 Routes
+
+| Path              | Description                  |
+|-------------------|------------------------------|
+| `/`               | Landing Page                 |
+| `/dashboard`      | Dashboard with charts & cards |
+| `/chat`           | AI Chat Assistant Interface  |
+
 
 📸 Screenshots
 ![Landing Page](./screenshots/LandingPage.png)
