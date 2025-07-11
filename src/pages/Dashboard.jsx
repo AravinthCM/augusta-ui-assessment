@@ -16,78 +16,30 @@ import {
   Area,
 } from "recharts";
 import {
-  LayoutDashboard,
+  BarChart3,
+  Clock,
   BarChart2,
-  MessageCircle,
   Menu,
   X,
-  ChevronRight,
-  Sparkles,
-  Shield,
   TrendingUp,
   Users,
-  Star,
-  ArrowRight,
   ArrowLeft,
   Bell,
-  Search,
   Filter,
   Download,
   Eye,
   Activity,
   DollarSign,
-  ShoppingCart,
-  Calendar,
-  Globe,
-  Zap,
   Target,
   Award,
   Settings,
   RefreshCw,
-  MoreHorizontal,
 } from "lucide-react";
 import Layout from "../components/layout/Layout";
 import { Button } from "../components/ui";
 import MetricCard from "../components/charts/MetricCard";
 import Sidebar from "../components/layout/Sidebar";
 import useIsMobile from "../hooks/useIsMobile";
-
-const AdvancedBarChart = ({ data, title }) => {
-  return (
-    <div className="bg-white rounded-xl border border-gray-200 p-6">
-      <div className="flex items-center justify-between mb-6">
-        <h2 className="text-lg font-semibold text-gray-900">{title}</h2>
-        <div className="flex items-center gap-2">
-          <button className="p-2 rounded-lg hover:bg-gray-50 transition-colors text-gray-500">
-            <Filter className="w-4 h-4" />
-          </button>
-          <button className="p-2 rounded-lg hover:bg-gray-50 transition-colors text-gray-500">
-            <Download className="w-4 h-4" />
-          </button>
-        </div>
-      </div>
-
-      <div className="h-80">
-        <ResponsiveContainer width="100%" height="100%">
-          <BarChart data={data}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
-            <XAxis dataKey="name" stroke="#64748b" fontSize={12} />
-            <YAxis stroke="#64748b" fontSize={12} />
-            <Tooltip
-              contentStyle={{
-                backgroundColor: "white",
-                border: "1px solid #e2e8f0",
-                borderRadius: "8px",
-                boxShadow: "0 10px 25px -5px rgb(0 0 0 / 0.1)",
-              }}
-            />
-            <Bar dataKey="users" fill="#3b82f6" radius={[4, 4, 0, 0]} />
-          </BarChart>
-        </ResponsiveContainer>
-      </div>
-    </div>
-  );
-};
 
 const AdvancedLineChart = ({ data, title }) => {
   return (
@@ -287,7 +239,7 @@ const Dashboard = () => {
   };
 
   const isMobile = useIsMobile();
-  return (
+   return (
     <>
       {/* Include mobile sidebar */}
       {isMobile && (
@@ -302,67 +254,129 @@ const Dashboard = () => {
       <Layout
         showNavbar={false}
         showSidebar={!isMobile}
-        bgClassName="bg-gray-200"
+        bgClassName="bg-gray-50"
       >
-        <div className="p-6 space-y-6 overflow-y-auto h-full rounded-2xl bg-gray-100 shadow-lg m-2">
-          {/* Header Row */}
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center space-x-2">
-              {isMobile && (
-                <button
-                  onClick={() => setMobileOpen(true)}
-                  className="p-2 hover:bg-gray-100 rounded-lg transition-colors bg-white shadow"
+        <div className="p-4 sm:p-6 max-w-7xl mx-auto">
+          {/* Clean Header Section */}
+          <div className="bg-white rounded-lg border border-gray-200 p-6 mb-6">
+            {/* Top Navigation Row */}
+            <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center space-x-3">
+                {isMobile && (
+                  <button
+                    onClick={() => setMobileOpen(true)}
+                    className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                  >
+                    <Menu className="w-4 h-4 text-gray-600" />
+                  </button>
+                )}
+
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  onClick={() => window.history.back()}
+                  isMobile={isMobile}
+                  className="flex items-center gap-2 px-3 py-2 text-gray-600 hover:bg-gray-100 rounded-lg border border-gray-200"
                 >
-                  <Menu className="w-4 h-4 text-gray-700" />
+                  <ArrowLeft className="w-4 h-4" />
+                  <span className="hidden sm:inline">Back</span>
+                </Button>
+              </div>
+
+              <div className="flex items-center space-x-3">
+                <button
+                  variant="outline"
+                  size="sm"
+                  onClick={handleRefresh}
+                  isMobile={isMobile}
+                  className="flex items-center gap-2 px-3 py-2 text-gray-600 hover:bg-gray-100 hover:text-blue-600 rounded-lg border border-gray-200"
+                >
+                  <RefreshCw
+                    className={`w-4 h-4 ${refreshing ? "animate-spin" : ""}`}
+                  />
+                  <span className="hidden sm:inline">Refresh</span>
                 </button>
-              )}
 
-              <Button
-                variant="secondary"
-                size="sm"
-                onClick={() => window.history.back()}
-                isMobile={isMobile}
-              >
-                <ArrowLeft className="w-4 h-4" />
-                Back
-              </Button>
+                <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors text-gray-500">
+                  <Bell className="w-4 h-4" />
+                </button>
+                <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors text-gray-500">
+                  <Settings className="w-4 h-4" />
+                </button>
+              </div>
             </div>
 
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={handleRefresh}
-              isMobile={isMobile}
-            >
-              <RefreshCw
-                className={`w-4 h-4 ${refreshing ? "animate-spin" : ""}`}
-              />
-              Refresh
-            </Button>
-          </div>
+            {/* Clean Dashboard Header */}
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
+              <div className="flex-1">
+                <div className="flex items-center gap-4 mb-3">
+                  <div className="w-12 h-12 bg-gray-900 rounded-lg flex items-center justify-center">
+                    <BarChart3 className="w-6 h-6 text-white" />
+                  </div>
+                  <div>
+                    <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
+                      Dashboard Overview
+                    </h1>
+                    <p className="text-gray-600 text-sm sm:text-base">
+                      Welcome back! Here's what's happening with your business.
+                    </p>
+                  </div>
+                </div>
+              </div>
 
-          {/* Dashboard Header */}
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-4xl md:text-5xl font-bold mb-2 leading-tight">
-                <span className="bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">
-                  Dashboard Overview
+              {/* Clean Stats Summary */}
+              <div className="flex gap-8">
+                <div className="text-center sm:text-right">
+                  <p className="text-xs text-gray-500 uppercase tracking-wide mb-1">
+                    Today
+                  </p>
+                  <p className="text-lg font-semibold text-gray-900">$2,847</p>
+                </div>
+                <div className="text-center sm:text-right">
+                  <p className="text-xs text-gray-500 uppercase tracking-wide mb-1">
+                    This Week
+                  </p>
+                  <p className="text-lg font-semibold text-gray-900">$12,453</p>
+                </div>
+                <div className="text-center sm:text-right">
+                  <p className="text-xs text-gray-500 uppercase tracking-wide mb-1">
+                    Active Users
+                  </p>
+                  <p className="text-lg font-semibold text-gray-900">1,247</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Clean Status Indicators */}
+            <div className="flex flex-wrap items-center gap-6 mt-6 pt-6 border-t border-gray-100">
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                <span className="text-sm text-gray-600">
+                  All systems operational
                 </span>
-              </h1>
-              <p className="text-gray-600">
-                Welcome back! Here's what's happening with your business.
-              </p>
+              </div>
+              <div className="flex items-center gap-2">
+                <Clock className="w-4 h-4 text-gray-400" />
+                <span className="text-sm text-gray-500">
+                  Last updated: {new Date().toLocaleTimeString()}
+                </span>
+              </div>
+              <div className="flex items-center gap-2">
+                <TrendingUp className="w-4 h-4 text-green-500" />
+                <span className="text-sm text-green-600">
+                  +8.2% from last week
+                </span>
+              </div>
             </div>
           </div>
 
-          {/* Metric Cards */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-6">
+          {/* Clean Metric Cards */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
             <MetricCard
               title="Total Users"
               value="12.4K"
               growth="+8.2%"
               icon={Users}
-              color="from-blue-500 to-blue-600"
               trend={trendData}
             />
             <MetricCard
@@ -370,7 +384,6 @@ const Dashboard = () => {
               value="$54.2K"
               growth="+3.2%"
               icon={DollarSign}
-              color="from-green-500 to-green-600"
               trend={trendData}
             />
             <MetricCard
@@ -378,7 +391,6 @@ const Dashboard = () => {
               value="8.1K"
               growth="-1.1%"
               icon={Activity}
-              color="from-purple-500 to-purple-600"
               trend={trendData}
             />
             <MetricCard
@@ -386,64 +398,45 @@ const Dashboard = () => {
               value="4.5%"
               growth="+0.5%"
               icon={Target}
-              color="from-orange-500 to-orange-600"
               trend={trendData}
             />
           </div>
 
           {/* Line Chart */}
-          <div className="grid grid-cols-4 gap-6">
-            <div className="col-span-4 lg:col-span-3">
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 mb-6">
+            <div className="lg:col-span-3">
               <AdvancedLineChart data={lineData} title="Revenue Trend" />
             </div>
-          </div>
-
-          {/* Pie + Feed */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <div className="lg:col-span-2">
-              <AdvancedPieChart data={pieData} title="Traffic Sources" />
+            <div className="lg:col-span-1">
+              <ActivityFeed />
             </div>
-            <ActivityFeed />
           </div>
 
-          {/* Quick Actions */}
-          <div className="bg-white rounded-xl border border-gray-200 p-6">
+          {/* Pie Chart */}
+          <div className="mb-6">
+            <AdvancedPieChart data={pieData} title="Traffic Sources" />
+          </div>
+
+          {/* Clean Quick Actions */}
+          <div className="bg-white rounded-lg border border-gray-200 p-6">
             <h2 className="text-lg font-semibold text-gray-900 mb-4">
               Quick Actions
             </h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {[
-                {
-                  icon: Users,
-                  label: "Add User",
-                  color: "from-blue-500 to-blue-600",
-                },
-                {
-                  icon: BarChart2,
-                  label: "Generate Report",
-                  color: "from-green-500 to-green-600",
-                },
-                {
-                  icon: Settings,
-                  label: "Settings",
-                  color: "from-purple-500 to-purple-600",
-                },
-                {
-                  icon: Award,
-                  label: "Achievements",
-                  color: "from-orange-500 to-orange-600",
-                },
+                { icon: Users, label: "Add User" },
+                { icon: BarChart2, label: "Generate Report" },
+                { icon: Settings, label: "Settings" },
+                { icon: Award, label: "Achievements" }
               ].map((action, i) => (
                 <button
                   key={i}
-                  className="flex flex-col items-center gap-3 p-4 rounded-lg bg-gray-50 hover:bg-gray-100 transition-all duration-200 group"
+                  className="flex flex-col items-center gap-3 p-4 rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors group"
                 >
-                  <div
-                    className={`w-10 h-10 rounded-lg bg-gradient-to-r ${action.color} flex items-center justify-center group-hover:scale-110 transition-transform`}
-                  >
-                    <action.icon className="w-5 h-5 text-white" />
+                  <div className="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center group-hover:bg-gray-200 transition-colors">
+                    <action.icon className="w-5 h-5 text-gray-600" />
                   </div>
-                  <span className="text-sm text-gray-700 group-hover:text-gray-900 font-medium">
+                  <span className="text-sm text-gray-700 font-medium">
                     {action.label}
                   </span>
                 </button>

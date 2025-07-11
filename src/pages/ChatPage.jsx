@@ -4,7 +4,7 @@ import ChatInput from "../components/chat/ChatInput";
 import ChatMessage from "../components/chat/ChatMessage";
 import Sidebar from "../components/layout/Sidebar";
 import useIsMobile from "../hooks/useIsMobile";
-// Chat Page Component
+
 const ChatPage = ({ setCurrentPage }) => {
   const [messages, setMessages] = useState([
     {
@@ -29,6 +29,7 @@ const ChatPage = ({ setCurrentPage }) => {
   ]);
   
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false); // Add this state
   const isMobile = useIsMobile();
   const messagesEndRef = useRef(null);
 
@@ -70,14 +71,15 @@ const ChatPage = ({ setCurrentPage }) => {
   };
   
   return (
-    <div className="h-screen flex flex-col sm:flex-row bg-gray-200">
+    <div className="h-screen flex bg-gray-100">
       <Sidebar
-        sidebarOpen={!isMobile}
-        setSidebarOpen={() => {}}
+        sidebarOpen={sidebarOpen}
+        setSidebarOpen={setSidebarOpen}
         mobileOpen={mobileOpen}
         setMobileOpen={setMobileOpen}
       />
-      <div className="flex-1 flex flex-col bg-gray-50 rounded-2xl m-2 shadow-lg overflow-hidden">
+      
+      <div className="flex-1 flex flex-col bg-white rounded-l-2xl shadow-lg overflow-hidden">
         {/* Header */}
         <div className="bg-white shadow-sm border-b px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
@@ -89,7 +91,7 @@ const ChatPage = ({ setCurrentPage }) => {
                 <Menu className="w-5 h-5 text-gray-500" />
               </button>
             )}
-            <div className="w-8 h-8 bg-gradient-to-br from-green-400 to-blue-500 rounded-full flex items-center justify-center">
+            <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
                 <Bot className="w-5 h-5 text-white" />
               </div>
               <div>
